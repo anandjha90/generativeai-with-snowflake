@@ -7,9 +7,6 @@ import streamlit as st
 from snowflake.snowpark.context import get_active_session
 session = get_active_session()
 
-from snowflake.cortex import Complete
-from snowflake.cortex import Summarize
-
 # --- Streamlit UI ---
 st.title("Call Center Transcript Analyzer using Snowflake Cortex")
 
@@ -21,7 +18,7 @@ call_df = session.sql(trans).to_pandas()
 # --- Agent filter ---
 agents = call_df['AGENT_NAME'].unique()
 selected_agent = st.selectbox("Select Agent", agents)
-filtered_df = df[df['AGENT_NAME'] == selected_agent]
+filtered_df = call_df[call_df['AGENT_NAME'] == selected_agent]
 
 # --- Display data ---
 st.subheader(f"Call Transcripts for Agent: {selected_agent}")
